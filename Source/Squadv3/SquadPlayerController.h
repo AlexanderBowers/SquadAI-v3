@@ -32,18 +32,18 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupInputComponent() override;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	//TArray<ASquadAIController*> SquadMembers;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<AActor*> SquadMembers;
 
 public:
 
 	//Command Point functions
 	UFUNCTION()
-	FCommandPoint CreateCommandPoint(FHitResult Hitresult);
+	FCommandPoint CreateCommandPoint(FHitResult HitResult);
 	UFUNCTION()
 	FCommandPoint AssignLocation(FCommandPoint CommandPoint, FHitResult HitResult);
 	UFUNCTION()
-	FCommandPoint AssignType(FCommandPoint CommandPoint, FHitResult Hitresult);
+	FCommandPoint AssignType(FCommandPoint CommandPoint, FHitResult HitResult);
 	
 	//Squad Management
 	UFUNCTION()
