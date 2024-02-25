@@ -48,10 +48,10 @@ public:
 	//Squad Management
 	UFUNCTION()
 	void DeployInvestigate(FCommandPoint CommandPoint);
-	//UFUNCTION()
-	//void AssignPosition(FCommandPoint CommandPoint, ASquadAIController* SquadMember)
-	//UFUNCTION(BlueprintCallable)
-	//ASquadAIController* GetAvailableMember(FCommandPoint CommandPoint);
+	UFUNCTION()
+	void AssignPosition(FCommandPoint CommandPoint, ASquadAIController* SquadMember);
+	UFUNCTION(BlueprintCallable)
+	ASquadAIController* GetAvailableMember(FCommandPoint CommandPoint);
 	UFUNCTION()
 	void SetNewAITarget(AActor* NewTarget);
 	UFUNCTION()
