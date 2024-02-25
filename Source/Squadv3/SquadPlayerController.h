@@ -54,9 +54,9 @@ public:
 	ASquadAIController* GetAvailableMember(FCommandPoint CommandPoint);
 	UFUNCTION()
 	void SetNewAITarget(AActor* NewTarget);
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void MoveUpCommand();
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void FormUpCommand();
 
 	//Room Clearing
