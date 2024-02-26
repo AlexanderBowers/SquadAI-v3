@@ -46,7 +46,7 @@ void ASquadAIController::Tick(float DeltaTime)
 
 			if (FVector::Distance(GetCharacter()->GetActorLocation(), PlayerController->GetPawn()->GetActorLocation()) >= 2000.0f)
 			{
-				//ResetPriorityCommand();
+				StopCommandAndFollow();
 
 			}
 		}
@@ -55,10 +55,16 @@ void ASquadAIController::Tick(float DeltaTime)
 
 void ASquadAIController::StartFollow()
 {
+	AActor* FollowDestination = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedFollow")));
+	if (FollowDestination)
+	{
+		MoveToLocation(FollowDestination->GetActorLocation(), 25);
+	}
 }
 
 void ASquadAIController::StopFollow()
 {
+	TheBlackboard->SetValueAsBool(FName("bShouldFollow"), false);
 }
 
 void ASquadAIController::MoveToCommand(FCommandPoint CommandPoint)

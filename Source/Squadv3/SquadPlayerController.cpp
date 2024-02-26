@@ -171,7 +171,7 @@ void ASquadPlayerController::MoveUpCommand()
 				if (Commando)
 				{
 					UBlackboardComponent* Blackboard = Commando->GetBlackboardComponent();
-					if (!Blackboard->GetValueAsBool(FName("bIsAssigned")))
+					if (Blackboard->GetValueAsObject(FName("AssignedPosition")) == nullptr)
 					{
 						Commando->StopFollow();
 						Commando->MoveToCommand(CommandPoint);
@@ -184,6 +184,18 @@ void ASquadPlayerController::MoveUpCommand()
 
 void ASquadPlayerController::FormUpCommand()
 {
+	for (AActor* AI : SquadMembers)
+	{
+		ASquadAIController* Commando = Cast<ASquadAIController>(AI);
+		if (Commando)
+		{
+			UBlackboardComponent* Blackboard = Commando->GetBlackboardComponent();
+			if (Blackboard->GetValueAsObject(FName("AssignedPosition")) == nullptr)
+			{
+				Blackboard->SetValueAsBool(FName("bShouldFollow"), true);
+			}
+		}
+	}
 }
 
 TArray<AActor*> ASquadPlayerController::GetRooms(AActor* Building)
