@@ -29,15 +29,6 @@ void ASquadPlayerController::Tick(float DeltaTime)
 {
 }
 
-void ASquadPlayerController::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-
-	//InputComponent->BindAction("MoveUpCommand", IE_Pressed, this, &ASquadPlayerController::MoveUpCommand);
-	//InputComponent->BindAction("FormUpCommand", IE_Pressed, this, &ASquadPlayerController::FormUpCommand);
-	//InputComponent->BindAction("FireProjectile", IE_Pressed, this, &ASquadPlayerController::FireProjectile);
-}
-
 FCommandPoint ASquadPlayerController::CreateCommandPoint(FHitResult HitResult)
 {
 	//if we get a collision, create a FCommandPoint. 

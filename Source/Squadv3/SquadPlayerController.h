@@ -30,7 +30,6 @@ class SQUADV3_API ASquadPlayerController : public APlayerController
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	virtual void SetupInputComponent() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TArray<AActor*> SquadMembers;

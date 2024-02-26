@@ -39,7 +39,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MoveToCommand(FCommandPoint CommandPoint);
 	UFUNCTION()
-	void HandleCommand();
+	void HandleCommand(FCommandPoint CommandPoint);
 	UFUNCTION(BlueprintCallable)
 	void StopCommandAndFollow();
 	UFUNCTION(BlueprintCallable)
@@ -47,7 +47,7 @@ public:
 	UFUNCTION()
 	void ClearRoom(FVector RoomLocation);
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UBlackboardComponent* TheBlackboard;
 	UPROPERTY()
 	ASquadPlayerController* PlayerController;
