@@ -58,7 +58,7 @@ FCommandPoint ASquadPlayerController::AssignType(FCommandPoint CommandPoint, FHi
   //FirePoint: One AI gets set this as a priority to move to or recalled from. See SquadPlayerController::GetAvailableMembers() for assignment.
   //Return: used in SquadPlayerController::FormUpCommand. Otherwise used as a backup if there was no actor found from the HitResult.
 
-	//Most of these seem redundant. Realistically we should only need Move, Target, Assign
+	//Most of these seem redundant. Realistically we should only need Move, Target, Assign, Investigate
 
 	AActor* Actor = HitResult.GetActor();
 	if (Actor)
@@ -141,7 +141,28 @@ void ASquadPlayerController::AssignPosition(FCommandPoint CommandPoint, ASquadAI
 
 ASquadAIController* ASquadPlayerController::GetAvailableMember(FCommandPoint CommandPoint)
 {
-	return nullptr;
+	ASquadAIController* AvailableMember = nullptr;
+
+	if (CommandPoint.OwnerActor->Implements<USquadInterface>())
+	{
+		for (AActor* AI : SquadMembers)
+		{
+			ASquadAIController* Commando = Cast<ASquadAIController>(AI);
+		
+			if (Commando->GetBlackboardComponent()->GetValueAsObject(FName("AssignedPosition")) == nullptr)
+			{
+				Commando->GetBlackboardComponent()->SetValueAsObject(FName("AssignedPosition"), CommandPoint.OwnerActor);
+				ISquadInterface::Execute_SetAssignedMember(CommandPoint.OwnerActor, Commando);
+				AvailableMember = Commando;
+				return AvailableMember;
+			}
+		
+		}
+	}
+	if (AvailableMember == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No Available Member found in GetAvailableMember. returning nullptr"));
+	}
 }
 
 void ASquadPlayerController::SetNewAITarget(AActor* NewTarget)
