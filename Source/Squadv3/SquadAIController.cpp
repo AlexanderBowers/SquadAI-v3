@@ -129,12 +129,12 @@ void ASquadAIController::HandleCommand(FCommandPoint CommandPoint) //For special
 
 void ASquadAIController::StopCommandAndFollow() //Drop assigned position and return to the player
 {
-	AActor* AssignedPosition = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
-	if (AssignedPosition)
+	AActor* Assignment = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
+	if (Assignment)
 	{
-		if (AssignedPosition->Implements<USquadInterface>())
+		if (Assignment->Implements<USquadInterface>())
 		{
-			ISquadInterface::Execute_ResetAssignedMember(AssignedPosition);
+			ISquadInterface::Execute_ResetAssignedMember(Assignment);
 		}
 	}
 	TheBlackboard->SetValueAsBool(FName("bShouldFollow"), true);
@@ -142,12 +142,12 @@ void ASquadAIController::StopCommandAndFollow() //Drop assigned position and ret
 
 void ASquadAIController::StopCommandDontFollow()//Drop assigned position. Stay where they are.
 {
-	AActor* AssignedPosition = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
-	if (AssignedPosition)
+	AActor* Assignment = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
+	if (Assignment)
 	{
-		if (AssignedPosition->Implements<USquadInterface>())
+		if (Assignment->Implements<USquadInterface>())
 		{
-			ISquadInterface::Execute_ResetAssignedMember(AssignedPosition);
+			ISquadInterface::Execute_ResetAssignedMember(Assignment);
 		}
 	}
 }

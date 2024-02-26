@@ -163,6 +163,7 @@ ASquadAIController* ASquadPlayerController::GetAvailableMember(FCommandPoint Com
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No Available Member found in GetAvailableMember. returning nullptr"));
 	}
+	return nullptr;
 }
 
 void ASquadPlayerController::SetNewAITarget(AActor* NewTarget)
