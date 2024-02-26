@@ -137,10 +137,27 @@ void ASquadAIController::HandleCommand(FCommandPoint CommandPoint)
 
 void ASquadAIController::StopCommandAndFollow()
 {
+	AActor* AssignedPosition = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
+	if (AssignedPosition)
+	{
+		if (AssignedPosition->Implements<USquadInterface>())
+		{
+			ISquadInterface::Execute_ResetAssignedMember(AssignedPosition);
+		}
+	}
+	TheBlackboard->SetValueAsBool(FName("bShouldFollow"), true);
 }
 
 void ASquadAIController::StopCommandDontFollow()
 {
+	AActor* AssignedPosition = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
+	if (AssignedPosition)
+	{
+		if (AssignedPosition->Implements<USquadInterface>())
+		{
+			ISquadInterface::Execute_ResetAssignedMember(AssignedPosition);
+		}
+	}
 }
 
 void ASquadAIController::ClearRoom(FVector RoomLocation)
