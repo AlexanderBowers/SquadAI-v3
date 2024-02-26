@@ -38,7 +38,7 @@ void ASquadAIController::Tick(float DeltaTime)
 	{
 		if (TheBlackboard)
 		{
-			if (TheBlackboard->GetValueAsBool(FName("bShouldFollow")))
+			if (TheBlackboard->GetValueAsBool(FName("bShouldFollow")) == true)
 			{
 				StartFollow();
 
@@ -53,7 +53,7 @@ void ASquadAIController::Tick(float DeltaTime)
 	}
 }
 
-void ASquadAIController::StartFollow()
+void ASquadAIController::StartFollow() //Return to the player. Each squad member has their own assigned follow position.
 {
 	AActor* FollowDestination = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedFollow")));
 	if (FollowDestination)
@@ -67,47 +67,39 @@ void ASquadAIController::StopFollow()
 	TheBlackboard->SetValueAsBool(FName("bShouldFollow"), false);
 }
 
-void ASquadAIController::MoveToCommand(FCommandPoint CommandPoint)
+void ASquadAIController::MoveToCommand(FCommandPoint CommandPoint) //Move to new location. if it's a new target, target them instead of moving.
 {
 	if (TheBlackboard)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Destination: %s"), *CommandPoint.Location.ToString());
-
 		if (CommandPoint.Type == FName("Target"))
 		{
 			if (GetPawn()->Implements<USquadInterface>())
 			{
 				if (CommandPoint.OwnerActor != nullptr)
 				{
-					ISquadInterface::Execute_SetNewTarget(GetPawn(), CommandPoint.OwnerActor);
+					TheBlackboard->SetValueAsObject(FName("TargetActor"), CommandPoint.OwnerActor);
 					return;
 				}
 			}
 		}
-		if (CommandPoint.Type == FName("Return"))
-		{
-			StartFollow();
-			TheBlackboard->SetValueAsBool(FName("bShouldFollow"), true);
-		}
-		if (CommandPoint.Location.X == 0.00f)
+
+		if (CommandPoint.Location.X == 0.00f) //Likely because it's an invalid location or it requires an assigned member.
 		{
 			return;
 		}
-			if (GetCharacter()->bIsCrouched)
-			{
-				GetCharacter()->UnCrouch();
-
-			}
-		if (this->Implements<USquadInterface>())
+		
+		if (GetCharacter()->bIsCrouched)
 		{
-			ISquadInterface::Execute_StopFollow(this);
+			GetCharacter()->UnCrouch();
+
 		}
+		StopFollow();
 		MoveToLocation(CommandPoint.Location, 25);
 		HandleCommand(CommandPoint);
 	}
 }
 
-void ASquadAIController::HandleCommand(FCommandPoint CommandPoint)
+void ASquadAIController::HandleCommand(FCommandPoint CommandPoint) //For special cases where there is more than just moving from A->B
 {
 	if (TheBlackboard)
 	{
@@ -135,7 +127,7 @@ void ASquadAIController::HandleCommand(FCommandPoint CommandPoint)
 	}
 }
 
-void ASquadAIController::StopCommandAndFollow()
+void ASquadAIController::StopCommandAndFollow() //Drop assigned position and return to the player
 {
 	AActor* AssignedPosition = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
 	if (AssignedPosition)
@@ -148,7 +140,7 @@ void ASquadAIController::StopCommandAndFollow()
 	TheBlackboard->SetValueAsBool(FName("bShouldFollow"), true);
 }
 
-void ASquadAIController::StopCommandDontFollow()
+void ASquadAIController::StopCommandDontFollow()//Drop assigned position. Stay where they are.
 {
 	AActor* AssignedPosition = Cast<AActor>(TheBlackboard->GetValueAsObject(FName("AssignedPosition")));
 	if (AssignedPosition)

@@ -47,6 +47,7 @@ public:
 	UFUNCTION()
 	void ClearRoom(FVector RoomLocation);
 
+	//Misc stuff that needs to be stored for convenience.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UBlackboardComponent* TheBlackboard;
 	UPROPERTY()
