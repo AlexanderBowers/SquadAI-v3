@@ -141,9 +141,7 @@ void ASquadPlayerController::AssignPosition(FCommandPoint CommandPoint, ASquadAI
 
 ASquadAIController* ASquadPlayerController::GetAvailableMember(FCommandPoint CommandPoint)
 {
-	FVector CommandLocation = CommandPoint.Location;
-	float BestDistance = 100000000; //Arbitrary number.
-	ASquadAIController* ClosestMember = nullptr;
+	ASquadAIController* AvailableMember = nullptr;
 
 	if (CommandPoint.OwnerActor->Implements<USquadInterface>())
 	{
@@ -153,26 +151,15 @@ ASquadAIController* ASquadPlayerController::GetAvailableMember(FCommandPoint Com
 		
 			if (Commando->GetBlackboardComponent()->GetValueAsObject(FName("AssignedPosition")) == nullptr)
 			{
-				FVector MemberLocation = Commando->GetCharacter()->GetActorLocation();
-				if (FVector::Distance(MemberLocation, CommandLocation) <= BestDistance)
-				{
-					BestDistance = FVector::Distance(MemberLocation, CommandLocation);
-					ClosestMember = Commando;
-
-				}
-				ClosestMember = Commando;
-
+				Commando->GetBlackboardComponent()->SetValueAsObject(FName("AssignedPosition"), CommandPoint.OwnerActor);
+				ISquadInterface::Execute_SetAssignedMember(CommandPoint.OwnerActor, Commando);
+				AvailableMember = Commando;
+				return AvailableMember;
 			}
+		
 		}
 	}
-	if (ClosestMember)
-	{
-		ClosestMember->GetBlackboardComponent()->SetValueAsObject(FName("AssignedPosition"), CommandPoint.OwnerActor);
-		ClosestMember->MoveToCommand(CommandPoint);
-		ISquadInterface::Execute_SetAssignedMember(CommandPoint.OwnerActor, ClosestMember);
-		return ClosestMember;
-	}
-	else
+	if (AvailableMember == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No Available Member found in GetAvailableMember. returning nullptr"));
 	}
