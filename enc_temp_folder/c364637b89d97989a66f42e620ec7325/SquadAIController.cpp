@@ -134,11 +134,10 @@ void ASquadAIController::StopCommandAndFollow() //Drop assigned position and ret
 	{
 		if (Assignment->Implements<USquadInterface>())
 		{
-			//ISquadInterface::Execute_ResetAssignedMember(Assignment); //This ended up causing issues where it would prevent cool moments like detonating the bridge
+			ISquadInterface::Execute_ResetAssignedMember(Assignment);
 		}
 	}
 	TheBlackboard->SetValueAsBool(FName("bShouldFollow"), true);
-	TheBlackboard->SetValueAsObject(FName("AssignedPosition"), nullptr);
 }
 
 void ASquadAIController::StopCommandDontFollow()//Drop assigned position. Stay where they are.
