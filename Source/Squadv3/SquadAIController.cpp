@@ -148,9 +148,10 @@ void ASquadAIController::StopCommandDontFollow()//Drop assigned position. Stay w
 	{
 		if (Assignment->Implements<USquadInterface>())
 		{
-			ISquadInterface::Execute_ResetAssignedMember(Assignment);
+			//ISquadInterface::Execute_ResetAssignedMember(Assignment);
 		}
 	}
+	TheBlackboard->SetValueAsObject(FName("AssignedPosition"), nullptr);
 }
 
 void ASquadAIController::ClearRoom(FVector RoomLocation)
