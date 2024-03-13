@@ -40,13 +40,13 @@ void ASquadAIController::Tick(float DeltaTime)
 		{
 			if (TheBlackboard->GetValueAsBool(FName("bShouldFollow")) == true)
 			{
-				StartFollow();
+				//StartFollow();
 
 			}
 
 			if (FVector::Distance(GetCharacter()->GetActorLocation(), PlayerController->GetPawn()->GetActorLocation()) >= 2000.0f)
 			{
-				StopCommandAndFollow();
+				//StopCommandAndFollow();
 
 			}
 		}
