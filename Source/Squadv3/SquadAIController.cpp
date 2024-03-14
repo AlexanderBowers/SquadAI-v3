@@ -44,7 +44,7 @@ void ASquadAIController::Tick(float DeltaTime)
 
 			}
 
-			if (FVector::Distance(GetCharacter()->GetActorLocation(), PlayerController->GetPawn()->GetActorLocation()) >= 2000.0f)
+			//if (FVector::Distance(GetCharacter()->GetActorLocation(), PlayerController->GetPawn()->GetActorLocation()) >= 2000.0f)
 			{
 				//StopCommandAndFollow();
 
